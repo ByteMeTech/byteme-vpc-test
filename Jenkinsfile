@@ -9,7 +9,7 @@ node {
     checkout scm
  
     // Get the Terraform tool.
-    def tfHome = tool name: 'Terraform', type: 'com.cloudbees.jenkins.plugins.customtools.CustomTool'
+    def tfHome = tool name: 'Terraform-byteme', type: 'com.cloudbees.jenkins.plugins.customtools.CustomTool'
     env.PATH = "${tfHome}:${env.PATH}"
     wrap([$class: 'AnsiColorBuildWrapper', colorMapName: 'xterm']) {
  
