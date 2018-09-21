@@ -34,6 +34,7 @@ node {
     } catch (err) {
         currentBuild.result = 'FAILED'
         throw err
+	cleanWs()
     }
 }
 
