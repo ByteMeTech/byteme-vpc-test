@@ -1,5 +1,3 @@
-env.TERRAFORM_CMD = 'docker run --network host " -w /app -v ${HOME}/.aws:/root/.aws -v ${HOME}/.ssh:/root/.ssh -v `pwd`:/app hashicorp/terraform:light'
-
 node {
     // Clean workspace before doing anything
     deleteDir()
@@ -16,12 +14,12 @@ node {
         }
         stage ('Initializing') {
                 sh  """
-                    ${TERRAFORM_CMD} init -backend=true -input=false
+                    ${params.TERRAFORM_CMD} init -backend=true -input=false
                     """
         }
         stage('plan') {
                 sh  """
-                    ${TERRAFORM_CMD} plan -out=tfplan -input=false
+                    ${params.TERRAFORM_CMD} plan -out=tfplan -input=false
                     """
                 script {
                   timeout(time: 10, unit: 'MINUTES') {
@@ -31,7 +29,7 @@ node {
         }
         stage('apply') {
                 sh  """
-                    ${TERRAFORM_CMD} apply -lock=false -input=false tfplan
+                    ${params.TERRAFORM_CMD} apply -lock=false -input=false tfplan
                     """
         }
         
