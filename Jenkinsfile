@@ -1,4 +1,3 @@
-env.TERRAFORM_CMD = 'docker run --network host " -w /app -v ${HOME}/.aws:/root/.aws -v ${HOME}/.ssh:/root/.ssh -v `pwd`:/app hashicorp/terraform:light'
 node {
     // Clean workspace before doing anything
     deleteDir()
@@ -12,14 +11,11 @@ node {
                 sh  'docker pull hashicorp/terraform:light'
         }
         stage ('Initializing') {
-        sh  """
-		${TERRAFORM_CMD} init -backend=true -input=false
-            """
+		sh "docker run --network host -w /app -v ${HOME}/.aws:/root/.aws -v ${HOME}/.ssh:/root/.ssh -v `pwd`:/app hashicorp/terraform:light init -backend=true -input=false"
         }
         stage('plan') {
-                sh  """
-                    ${TERRAFORM_CMD} plan -out=tfplan -input=false
-                    """
+                sh  "docker run --network host -w /app -v ${HOME}/.aws:/root/.aws -v ${HOME}/.ssh:/root/.ssh -v `pwd`:/app hashicorp/terraform:light plan -out=tfplan -input=false"
+                    
                 script {
                   timeout(time: 10, unit: 'MINUTES') {
                     input(id: "Deploy Gate", message: "Deploy ${params.project_name}?", ok: 'Deploy')
@@ -27,9 +23,7 @@ node {
             }
         }
         stage('apply') {
-        sh  """
-            ${TERRAFORM_CMD} apply -lock=false -input=false tfplan
-            """
+        sh  "docker run --network host -w /app -v ${HOME}/.aws:/root/.aws -v ${HOME}/.ssh:/root/.ssh -v `pwd`:/app hashicorp/terraform:light apply -lock=false -input=false tfplan"
         }
 
         stage ('Clean up workspace') {
