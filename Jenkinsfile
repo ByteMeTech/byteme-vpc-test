@@ -1,4 +1,4 @@
-env.TERRAFORM_CMD = 'docker run --network host -w /app -v ${HOME}/.aws:/root/.aws -v ${HOME}/.ssh:/root/.ssh -v `pwd`:/app hashicorp/terraform:light'
+env.TERRAFORM_CMD = 'docker run --network host -w /app -v $HOME/.aws:/root/.aws -v $HOME/.ssh:/root/.ssh -v `pwd`:/app hashicorp/terraform:light'
 node {
     // Clean workspace before doing anything
     deleteDir()
