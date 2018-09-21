@@ -3,9 +3,9 @@ node {
     deleteDir()
     cleanWs()
     try {
-		environment {
-			TERRAFORM_CMD = 'docker run --network host " -w /app -v ${HOME}/.aws:/root/.aws -v ${HOME}/.ssh:/root/.ssh -v `pwd`:/app hashicorp/terraform:light'
-		}
+                environment {
+                        TERRAFORM_CMD = 'docker run --network host " -w /app -v ${HOME}/.aws:/root/.aws -v ${HOME}/.ssh:/root/.ssh -v `pwd`:/app hashicorp/terraform:light'
+                }
         stage ('Checkout Repo') {
             checkout scm
         }
@@ -19,7 +19,7 @@ node {
                     ${TERRAFORM_CMD} init -backend=true -input=false
                     """
         }
-	stage('plan') {
+        stage('plan') {
                 sh  """
                     ${TERRAFORM_CMD} plan -out=tfplan -input=false
                     """
@@ -29,20 +29,20 @@ node {
                   }
             }
         }
-		stage('apply') {
+        stage('apply') {
                 sh  """
                     ${TERRAFORM_CMD} apply -lock=false -input=false tfplan
                     """
-				}
         }
-	stage ('Clean up workspace')
-	{
-	cleanWs()
-	deleteDir()
-	}
-	
+        
+        stage ('Clean up workspace') {
+        cleanWs()
+        deleteDir()
+        }
+
     } catch (err) {
         currentBuild.result = 'FAILED'
         throw err
     }
 }
+
