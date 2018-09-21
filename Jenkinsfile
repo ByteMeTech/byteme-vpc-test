@@ -1,15 +1,10 @@
-pipeline {
-environment {
-TERRAFORM_CMD = 'docker run --network host " -w /app -v ${HOME}/.aws:/root/.aws -v ${HOME}/.ssh:/root/.ssh -v `pwd`:/app hashicorp/terraform:light'
-
-}
-
+env.TERRAFORM_CMD = 'docker run --network host " -w /app -v ${HOME}/.aws:/root/.aws -v ${HOME}/.ssh:/root/.ssh -v `pwd`:/app hashicorp/terraform:light'
 node {
     // Clean workspace before doing anything
     deleteDir()
     cleanWs()
     try {
-                
+
         stage ('Checkout Repo') {
             checkout scm
         }
@@ -18,14 +13,14 @@ node {
         }
         stage ('Initializing') {
         sh  """
-                    ${TERRAFORM_CMD} init -backend=true -input=false
-                    """
-	}
+		${TERRAFORM_CMD} init -backend=true -input=false
+            """
+        }
         stage('plan') {
                 sh  """
-                    ${TERRAFORM_CMD} plan -out=tfplan -input=false 
+                    ${TERRAFORM_CMD} plan -out=tfplan -input=false
                     """
-		script {
+                script {
                   timeout(time: 10, unit: 'MINUTES') {
                     input(id: "Deploy Gate", message: "Deploy ${params.project_name}?", ok: 'Deploy')
                   }
@@ -33,10 +28,10 @@ node {
         }
         stage('apply') {
         sh  """
-	    ${TERRAFORM_CMD} apply -lock=false -input=false tfplan
+            ${TERRAFORM_CMD} apply -lock=false -input=false tfplan
             """
-	}
-        
+        }
+
         stage ('Clean up workspace') {
         cleanWs()
         deleteDir()
@@ -47,4 +42,5 @@ node {
         throw err
     }
 }
-}
+
+
