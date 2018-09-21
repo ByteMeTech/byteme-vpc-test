@@ -35,6 +35,7 @@ node {
         currentBuild.result = 'FAILED'
         throw err
 	cleanWs()
+	deleteDir()
     }
 }
 
