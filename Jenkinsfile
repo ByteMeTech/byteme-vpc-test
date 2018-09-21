@@ -2,10 +2,11 @@ node {
     // Clean workspace before doing anything
     deleteDir()
     cleanWs()
-    try {
-                environment {
+environment {
                         TERRAFORM_CMD = 'docker run --network host " -w /app -v ${HOME}/.aws:/root/.aws -v ${HOME}/.ssh:/root/.ssh -v `pwd`:/app hashicorp/terraform:light'
                 }
+    try {
+                
         stage ('Checkout Repo') {
             checkout scm
         }
