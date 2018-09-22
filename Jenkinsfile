@@ -25,26 +25,26 @@ checkout scm
            // sh "./init"
 	   sh "terraform init" 
            sh "terraform get"
-           sh "echo \$PWD"
-           sh "whoami"
+           // sh "echo \$PWD"
+           // sh "whoami"
            sh "terraform plan -out=plan.out;echo \$? > status"
            def exitCode = readFile('status').trim()
            def apply = false
-           echo "Terraform Plan Exit Code: ${exitCode}"
+           // echo "Terraform Plan Exit Code: ${exitCode}"
            if (exitCode == "0") {
-               //echo "Terraform Plan Exit Code: ${exitCode}"
+               // echo "Terraform Plan Exit Code: ${exitCode}"
                // slackSend channel: '#midwesthackerschool', color: '#0080ff', message: "Plan Failed: ${env.JOB_NAME} - ${env.BUILD_NUMBER} ()"
                currentBuild.result = 'SUCCESS'
            }
            if (exitCode == "1") {
                // sh "terraform destroy -force"
-               //echo "Terraform Plan Exit Code: ${exitCode}"
+               // echo "Terraform Plan Exit Code: ${exitCode}"
                // slackSend channel: '#midwesthackerschool', color: '#0080ff', message: "Infrastructure Destroyed: ${env.JOB_NAME} - ${env.BUILD_NUMBER} ()"
                currentBuild.result = 'FAILURE'
            }
            if (exitCode == "0") {
-               echo "Terraform Plan Exit Code: ${exitCode}"
-               //stash name: "plan", includes: "plan.out"
+               // echo "Terraform Plan Exit Code: ${exitCode}"
+               // stash name: "plan", includes: "plan.out"
                // slackSend channel: '#midwesthackerschool', color: 'good', message: "Plan Awaiting Approval: ${env.JOB_NAME} - ${env.BUILD_NUMBER} ()"
                try {
                    input message: 'Apply Plan?', ok: 'Apply'
