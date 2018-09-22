@@ -32,13 +32,13 @@ checkout scm
            def apply = false
            echo "Terraform Plan Exit Code: ${exitCode}"
            if (exitCode == "0") {
-               echo "Terraform Plan Exit Code: ${exitCode}"
+               //echo "Terraform Plan Exit Code: ${exitCode}"
                // slackSend channel: '#midwesthackerschool', color: '#0080ff', message: "Plan Failed: ${env.JOB_NAME} - ${env.BUILD_NUMBER} ()"
                currentBuild.result = 'SUCCESS'
            }
            if (exitCode == "1") {
                // sh "terraform destroy -force"
-               echo "Terraform Plan Exit Code: ${exitCode}"
+               //echo "Terraform Plan Exit Code: ${exitCode}"
                // slackSend channel: '#midwesthackerschool', color: '#0080ff', message: "Infrastructure Destroyed: ${env.JOB_NAME} - ${env.BUILD_NUMBER} ()"
                currentBuild.result = 'FAILURE'
            }
