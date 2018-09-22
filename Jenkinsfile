@@ -37,7 +37,7 @@ checkout scm
                currentBuild.result = 'SUCCESS'
            }
            if (exitCode == "1") {
-               sh "terraform destroy -force"
+               // sh "terraform destroy -force"
                echo "Terraform Plan Exit Code: ${exitCode}"
                // slackSend channel: '#midwesthackerschool', color: '#0080ff', message: "Infrastructure Destroyed: ${env.JOB_NAME} - ${env.BUILD_NUMBER} ()"
                currentBuild.result = 'FAILURE'
@@ -52,8 +52,8 @@ checkout scm
                } catch (err) {
                    // slackSend channel: '#midwesthackerschool', color: 'warning', message: "Plan Discarded: ${env.JOB_NAME} - ${env.BUILD_NUMBER} ()"
                    apply = false
-                   sh "terraform destroy -force"
-                   currentBuild.result = 'UNSTABLE'
+                   // sh "terraform destroy -force"
+                   currentBuild.result = 'CANCELED'
                }
            }
            if (apply) {
@@ -68,7 +68,7 @@ checkout scm
                    // slackSend channel: '#midwesthackerschool', color: 'good', message: "Changes Applied ${env.JOB_NAME} - ${env.BUILD_NUMBER} ()"
                } else {
                    // slackSend channel: '#midwesthackerschool', color: 'danger', message: "Apply Failed: ${env.JOB_NAME} - ${env.BUILD_NUMBER} ()"
-                   sh "terraform destroy -force"
+                   // sh "terraform destroy -force"
                    currentBuild.result = 'FAILURE'
                }
            }
