@@ -53,7 +53,7 @@ checkout scm
                    // slackSend channel: '#midwesthackerschool', color: 'warning', message: "Plan Discarded: ${env.JOB_NAME} - ${env.BUILD_NUMBER} ()"
                    apply = false
                    // sh "terraform destroy -force"
-                   currentBuild.result = 'CANCELED'
+                   currentBuild.result = 'ABORTED'
                }
            }
            if (apply) {
