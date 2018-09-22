@@ -22,7 +22,7 @@ checkout scm
            if (fileExists("status")) {
                sh "rm status"
            }
-           #sh "./init"
+           // sh "./init"
 	   
            sh "terraform get"
            sh "echo \$PWD"
