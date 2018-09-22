@@ -1,8 +1,9 @@
 node {
  
    // Mark the code checkout 'Checkout'....
-   stage 'Checkout'
- 
+   stage ('Checkout'){
+   // deleteDir()
+   cleanWs() 
    // // Get some code from a GitHub repository
    // git url: 'git://github.com:knott-sphere/infrastructure.git'
 checkout scm 
@@ -10,9 +11,9 @@ checkout scm
    // def tfHome = tool name: 'Terraform', type: 'com.cloudbees.jenkins.plugins.customtools.CustomTool'
    // env.PATH = "${tfHome}:${env.PATH}"
   // wrap([$class: 'AnsiColorBuildWrapper', colorMapName: 'xterm']) {
- 
+ }
            // Mark the code build 'plan'....
-           stage name: 'Plan', concurrency: 1
+           stage ('Plan'){
            // Output Terraform version
            sh "terraform --version"
            //Remove the terraform state file so we always start from a clean state
@@ -56,8 +57,9 @@ checkout scm
                    currentBuild.result = 'ABORTED'
                }
            }
+	   } // end plan stage
            if (apply) {
-               stage name: 'Apply', concurrency: 1
+               stage ('Apply') {
                //unstash 'plan'
                if (fileExists("status.apply")) {
                    sh "rm status.apply"
@@ -71,6 +73,6 @@ checkout scm
                    // sh "terraform destroy -force"
                    currentBuild.result = 'FAILURE'
                }
+	       }
            }
-   // }
 }
