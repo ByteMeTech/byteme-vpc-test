@@ -23,7 +23,7 @@ checkout scm
                sh "rm status"
            }
            // sh "./init"
-	   
+	   sh "terraform init" 
            sh "terraform get"
            sh "echo \$PWD"
            sh "whoami"
