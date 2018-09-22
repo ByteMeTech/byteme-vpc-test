@@ -8,10 +8,8 @@ node {
 			checkout scm
 		}
 		stage ('Terraform init') {
-			steps {
-				sh "terraform init"
-				sh "terraform get"
-			}
+			sh "terraform init"
+			sh "terraform get"
 			
 		}
 		stage ('Review Plan') {
