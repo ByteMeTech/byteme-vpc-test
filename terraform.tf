@@ -1,3 +1,4 @@
+# Enable S3 remote state
 terraform {
   backend "s3" {
     bucket = "byteme-terraform-state"
